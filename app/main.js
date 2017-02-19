@@ -4,20 +4,20 @@ module.exports = async context => {
     Object.assign(global, context);
     try {
         while (true) {
-            const [key, snapshot] = await multiExecAsync(client, multi => {
-                multi.brpoplpush(config.inq, config.busyq, 1);
-            });
-            if (!key) {
-                if (config.exit === 'empty') {
-                    break;
-                }
-                continue;
-            }
-            if (key === 'none') {
+            const item = await client.brpoplpushAsync(config.inq, config.busyq, config.popTimeout);
+            logger.debug('pop', config.inq, config.busyq, config.popTimeout, item);
+            if (!item) {
                 break;
             }
-            try {
-
+            if (item === 'exit') {
+                await client.lrem(config.busyq, 1, item);
+                break;
+            }
+            await multiExecAsync(client, multi => {
+                config.outqs.forEach(outq => multi.lpush(outq, item));
+                multi.lrem(config.busyq, 1, item);
+            });
+        }
     } catch (err) {
        throw err;
     } finally {

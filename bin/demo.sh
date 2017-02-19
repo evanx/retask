@@ -44,6 +44,10 @@ removeNetwork() {
     retask
   sleep 2
   redis-cli -h $redisHost keys '*'
+  redis-cli -h $redisHost lrange in:q 0 -1
+  redis-cli -h $redisHost lrange busy:q 0 -1
+  redis-cli -h $redisHost lrange out1:q 0 -1
+  redis-cli -h $redisHost lrange out2:q 0 -1
   docker rm -f $redisName
   docker network rm $network
 )

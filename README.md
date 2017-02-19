@@ -21,13 +21,21 @@ module.exports = {
             description: 'the Redis port',
             default: 6379
         },
+        popTimeout: {
+            description: 'the timeout for brpoplpush',
+            unit: 'seconds',
+            default: 10
+        },
         inq: {
             description: 'the source queue',
+        },
+        busyq: {
+            description: 'the pending queue for brpoplpush',
         },
         outqs: {
             description: 'the target queues',
             elementType: 'string'
-        }
+        }        
     }
 }
 ```
