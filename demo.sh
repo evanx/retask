@@ -1,5 +1,5 @@
 
-name='scan-expire'
+name='retask'
 network="$name-network"
 redisName="$name-redis"
 
@@ -25,23 +25,22 @@ removeNetwork() {
   removeNetwork
   set -u -e -x
   sleep 1
-  docker network create -d bridge scan-expire-network
-  redisContainer=`docker run --network=scan-expire-network \
+  docker network create -d bridge retask-network
+  redisContainer=`docker run --network=retask-network \
       --name $redisName -d redis`
   redisHost=`docker inspect $redisContainer |
       grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   sleep 1
-  redis-cli -h $redisHost set user:evanxsummers '{"twitter": "@evanxsummers"}'
-  redis-cli -h $redisHost set user:other '{"twitter": "@evanxsummers"}'
-  redis-cli -h $redisHost set group:evanxsummers '["evanxsummers"]'
+  redis-cli -h $redisHost lpush in:q '{"twitter": "@evanxsummers"}'
   redis-cli -h $redisHost keys '*'
-  docker build -t scan-expire https://github.com/evanx/scan-expire.git
-  docker run --name scan-expire-instance --rm -i \
-    --network=scan-expire-network \
+  docker build -t retask https://github.com/evanx/retask.git
+  docker run --name retask-instance --rm -i \
+    --network=retask-network \
     -e host=$redisHost \
-    -e pattern='user:*' \
+    -e inq=in:q \
+    -e outqs=out1:q,out2:q \
     -e ttl=1 \
-    scan-expire
+    retask
   sleep 2
   redis-cli -h $redisHost keys '*'
   docker rm -f $redisName

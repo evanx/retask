@@ -1,20 +1,6 @@
 module.exports = {
     description: 'Redis-based dispatcher to parallel pipelines.',
     required: {
-        pattern: {
-            description: 'the matching pattern for Redis scan',
-            example: '*'
-        },
-        ttl: {
-            description: 'the TTL expiry to set on archived keys',
-            unit: 'seconds',
-            example: 60
-        },
-        limit: {
-            description: 'the maximum number of keys to expire',
-            default: 10,
-            note: 'zero means unlimited'
-        },
         host: {
             description: 'the Redis host',
             default: 'localhost'
@@ -22,6 +8,13 @@ module.exports = {
         port: {
             description: 'the Redis port',
             default: 6379
+        },
+        inq: {
+            description: 'the source queue',
+        },
+        outqs: {
+            description: 'the target queues',
+            elementType: 'string'
         },
         loggerLevel: {
             description: 'the logging level',
