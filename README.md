@@ -107,7 +107,21 @@ evan@dijkstra:~/retask$ sh test/demo.sh
 
 See `app/main.js`
 ```javascript
-
+while (true) {
+    const item = await client.brpoplpushAsync(config.inq, config.busyq, config.popTimeout);
+    logger.debug('pop', config.inq, config.busyq, config.popTimeout, item);
+    if (!item) {
+        break;
+    }
+    if (item === 'exit') {
+        await client.lrem(config.busyq, 1, item);
+        break;
+    }
+    await multiExecAsync(client, multi => {
+        config.outqs.forEach(outq => multi.lpush(outq, item));
+        multi.lrem(config.busyq, 1, item);
+    });
+}
 ```
 
 ### Appication archetype
