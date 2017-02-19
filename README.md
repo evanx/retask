@@ -60,10 +60,14 @@ Builds:
 - isolated Redis instance named `retask-redis`
 - this utility `evanx/retask`
 
+#### Isolated test network
+
 First we create the isolated network:
 ```shell
 docker network create -d bridge retask-network
 ```
+
+#### Disposable Redis instance
 
 Then the Redis container on that network:
 ```
@@ -74,10 +78,14 @@ redisHost=`docker inspect $redisContainer |
 ```
 where we parse its IP number into `redisHost`
 
+#### Setup test data
+
 We push an item to the input queue:
 ```
 redis-cli -h $redisHost lpush in:q '46664'
 ```
+
+#### Build and run
 
 We build a container image for this service:
 ```
@@ -94,6 +102,9 @@ docker run --name retask-instance --rm -i \
   -e outqs=out1:q,out2:q \
   retask
 ```
+
+#### Verify results
+
 ```
 evan@dijkstra:~/retask$ sh test/demo.sh
 ...
@@ -101,6 +112,13 @@ evan@dijkstra:~/retask$ sh test/demo.sh
 1) 46664
 + redis-cli -h $redisHost lrange out2:q 0 -1
 1) 46664
+```
+
+#### Teardown
+
+```
+docker rm -f retask-redis
+docker network rm retask-network
 ```
 
 ## Implementation
