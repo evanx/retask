@@ -38,6 +38,7 @@ removeNetwork() {
     --network=retask-network \
     -e host=$redisHost \
     -e inq=in:q \
+    -e busyq=busy:q \
     -e outqs=out1:q,out2:q \
     -e ttl=1 \
     retask

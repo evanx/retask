@@ -12,6 +12,9 @@ module.exports = {
         inq: {
             description: 'the source queue',
         },
+        busyq: {
+            description: 'the pending queue for brpoplpush',
+        },
         outqs: {
             description: 'the target queues',
             elementType: 'string'
