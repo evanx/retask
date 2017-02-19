@@ -1,6 +1,6 @@
 {
   "name": "retask",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Redis-based dispatcher to parallel pipelines.",
   "main": "app/index.js",
   "scripts": {

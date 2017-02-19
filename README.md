@@ -1,10 +1,16 @@
 # retask
 
-Redis-based dispatcher to parallel pipelines.
+Redis-based dispatcher to parallel task pipelines.
 
 <img src="https://raw.githubusercontent.com/evanx/retask/master/docs/readme/main.png"/>
 
 ## Use case
+
+We require a persistent pubsub setup via Redis lists, e.g. to support parallel task queues.
+
+Some "publisher" pushes a message onto a Redis list. This service pops each message, and pushes it onto multiple target lists, one for each subscriber. Each subscriber pops messages from their own dedicated Redis list.
+
+This replaces a previously implemented solution for the same use case: https://github.com/evanx/mpush-redis
 
 ## Config
 
