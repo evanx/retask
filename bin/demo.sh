@@ -31,7 +31,7 @@ removeNetwork() {
   redisHost=`docker inspect $redisContainer |
       grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   sleep 1
-  redis-cli -h $redisHost lpush in:q '{"twitter": "@evanxsummers"}'
+  redis-cli -h $redisHost lpush in:q '46664'
   redis-cli -h $redisHost keys '*'
   docker build -t retask https://github.com/evanx/retask.git
   docker run --name retask-instance --rm -i \

@@ -70,7 +70,7 @@ where we parse its IP number into `redisHost`
 
 We push an item to the input queue:
 ```
-redis-cli -h $redisHost lpush in:q '{"twitter": "@evanxsummers"}'
+redis-cli -h $redisHost lpush in:q '46664'
 ```
 
 We build a container image for this service:
@@ -92,8 +92,10 @@ docker run --name retask-instance --rm -i \
 evan@dijkstra:~/retask$ sh test/demo.sh
 ...
 + redis-cli -h $redisHost lrange out1:q 0 -1
+1) 46664
++ redis-cli -h $redisHost lrange out2:q 0 -1
+1) 46664
 ```
-
 
 ## Implementation
 
