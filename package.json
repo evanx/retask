@@ -1,0 +1,26 @@
+{
+  "name": "retask",
+  "version": "0.1.0",
+  "description": "Redis-based dispatcher to parallel pipelines.",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint --cache src",
+    "start": "node --harmony lib/index.js"
+  },
+  "author": "@evanxsummers",
+  "license": "ISC",
+  "dependencies": {
+    "redis-app-rpf": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanx/retask.git"
+  },
+  "bugs": {
+    "url": "https://github.com/evanx/retask/issues"
+  },
+  "homepage": "https://github.com/evanx/retask#readme"
+}
