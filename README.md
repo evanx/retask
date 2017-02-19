@@ -88,13 +88,14 @@ evan@dijkstra:~/retask$ sh test/demo.sh
 
 ## Implementation
 
-See `main.js`
+See `app/main.js`
 ```javascript
+
 ```
 
 ### Appication archetype
 
-Incidently `lib/index.js` uses the `redis-app-rpf` application archetype.
+Incidently `app/index.js` uses the `redis-app-rpf` application archetype.
 ```
 require('redis-app-rpf')(require('./spec'), require('./main'));
 ```
